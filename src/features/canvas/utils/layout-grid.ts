@@ -32,8 +32,9 @@ export function layoutGraph(graph: ComposeGraph): { nodes: Node[]; edges: Edge[]
       id: `${edge.source}-${edge.target}`,
       source: edge.source,
       target: edge.target,
-      type: 'smoothstep', // Built-in curve type
+      type: 'dependencyEdge', // Changed from 'smoothstep'
       animated: true,
+      style: { stroke: 'var(--foreground)', strokeWidth: 1.5, opacity: 0.5 },
       markerEnd: {
         type: MarkerType.ArrowClosed,
       },

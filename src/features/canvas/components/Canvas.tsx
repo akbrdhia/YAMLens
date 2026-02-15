@@ -2,10 +2,15 @@ import { ReactFlow, Background, Controls, MiniMap } from '@xyflow/react';
 import '@xyflow/react/dist/style.css'; // Import styles
 import { useCanvasStore } from '../store/useCanvasStore';
 import { ServiceNode } from './ServiceNode';
+import { DependencyEdge } from './DependencyEdge';
 
 // Register node types
 const nodeTypes = {
   serviceNode: ServiceNode,
+};
+
+const edgeTypes = {
+  dependencyEdge: DependencyEdge,
 };
 
 export function Canvas() {
@@ -20,6 +25,7 @@ export function Canvas() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         fitView
         className="bg-background"
         colorMode="dark"
