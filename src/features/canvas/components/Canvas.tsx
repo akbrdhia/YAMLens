@@ -1,4 +1,4 @@
-import { ReactFlow, Background, Controls, MiniMap, type ColorMode } from '@xyflow/react';
+import { ReactFlow, Background, Controls, MiniMap, type ColorMode, BackgroundVariant } from '@xyflow/react';
 import '@xyflow/react/dist/style.css'; // Import styles
 import { useTheme } from 'next-themes';
 import { useCanvasStore } from '../store/useCanvasStore';
@@ -32,7 +32,13 @@ export function Canvas() {
         className="bg-background"
         colorMode={resolvedTheme as ColorMode}
       >
-        <Background gap={20} size={1} color="var(--border)" />
+        <Background
+          variant={BackgroundVariant.Dots}
+          gap={24}
+          size={3.5}
+          color="var(--muted-foreground)"
+          className="opacity-25"
+        />
         <Controls className="bg-card border-border fill-foreground" />
         <MiniMap className="bg-card border-border" nodeColor="var(--primary)" />
       </ReactFlow>
