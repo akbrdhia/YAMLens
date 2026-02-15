@@ -1,14 +1,47 @@
+import { useState, useEffect } from 'react';
+import { parseDockerCompose } from '@/features/parser';
+import { useCanvasStore } from '@/features/canvas';
+import { cn } from '@/lib/utils';
+
 export function Editor() {
+  const setGraph = useCanvasStore((state) => state.setGraph);
+  const [code, setCode] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  // Parse on code change (debounced in real app, immediate for now)
+  useEffect(() => {
+    if (!code.trim()) return;
+
+    const result = parseDockerCompose(code);
+    if (result.success && result.data) {
+      setGraph(result.data);
+      setError(null);
+    } else {
+      setError(result.error || 'Unknown error');
+    }
+  }, [code, setGraph]);
+
   return (
     <div className="h-full w-full flex flex-col bg-background">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-        <span className="text-sm font-medium text-muted-foreground">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/40">
+        <span className="text-sm font-medium text-muted-foreground flex items-center gap-2">
           docker-compose.yml
+          {error && <span className="text-destructive text-xs ml-2">({error.split('\n')[0]})</span>}
         </span>
       </div>
-      <div className="flex-1 p-4 font-mono text-sm text-muted-foreground">
-        Paste your docker-compose.yml here...
+      <div className="flex-1 relative">
+        <textarea
+          className={cn(
+            "w-full h-full p-4 font-mono text-sm bg-background resize-none focus:outline-none",
+            "text-foreground placeholder:text-muted-foreground/50",
+            error ? "border-l-2 border-destructive" : ""
+          )}
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          placeholder="version: '3'&#10;services:&#10;  web:&#10;    image: nginx&#10;    ports:&#10;      - '80:80'"
+          spellCheck={false}
+        />
       </div>
     </div>
-  )
+  );
 }
