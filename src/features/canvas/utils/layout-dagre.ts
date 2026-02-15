@@ -1,6 +1,7 @@
 import dagre from '@dagrejs/dagre';
-import { Node, Edge, MarkerType } from '@xyflow/react';
-import { ComposeGraph } from '@/features/parser/types';
+import type { Node, Edge } from '@xyflow/react';
+import { MarkerType } from '@xyflow/react';
+import type { ComposeGraph } from '@/features/parser/types';
 
 // Node dimensions (approximate for Cards)
 const NODE_WIDTH = 250;
