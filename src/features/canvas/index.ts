@@ -1,1 +1,1 @@
-export {}
+export { Canvas } from './components/Canvas'
