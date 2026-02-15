@@ -1,5 +1,5 @@
-import { Node, Edge, MarkerType } from '@xyflow/react';
-import { ComposeGraph } from '@/features/parser/types';
+import { type Node, type Edge, MarkerType } from '@xyflow/react';
+import type { ComposeGraph } from '@/features/parser/types';
 
 const NODE_WIDTH = 250;
 const NODE_HEIGHT = 150;

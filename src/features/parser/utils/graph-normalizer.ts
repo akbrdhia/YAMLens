@@ -1,5 +1,5 @@
-import { ComposeFile } from '../schemas/compose.schema';
-import { ComposeGraph, ServiceNode, ServiceEdge } from '../types';
+import type { ComposeFile } from '../schemas/compose.schema';
+import type { ComposeGraph, ServiceNode, ServiceEdge } from '../types';
 
 export function normalizeToGraph(compose: ComposeFile): ComposeGraph {
   const services: Record<string, ServiceNode> = {};

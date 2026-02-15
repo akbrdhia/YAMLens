@@ -3,11 +3,11 @@ import {
   addEdge,
   applyNodeChanges,
   applyEdgeChanges,
-  Connection,
-  EdgeChange,
-  NodeChange,
+  type Connection,
+  type EdgeChange,
+  type NodeChange,
 } from '@xyflow/react';
-import { CanvasState } from '../types';
+import type { CanvasState } from '../types';
 import { layoutGraph } from '../utils/layout-grid';
 
 export const useCanvasStore = create<CanvasState>((set, get) => ({

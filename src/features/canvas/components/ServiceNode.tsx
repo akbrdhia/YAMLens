@@ -1,9 +1,11 @@
 import { memo } from 'react';
-import { Handle, Position, NodeProps } from '@xyflow/react';
+import { Handle, Position, type NodeProps, type Node } from '@xyflow/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { ServiceNode as ServiceNodeType } from '@/features/parser/types';
-import { cn } from '@/lib/utils';
+import type { ServiceNode as ServiceNodeType } from '@/features/parser/types';
 import { Box, Globe, Database } from 'lucide-react'; // Example icons
+
+// Define the Node type for React Flow
+export type ServiceReactFlowNode = Node<ServiceNodeType, 'serviceNode'>;
 
 // Helper to guess icon (Day 4 will make this better)
 const getIcon = (image?: string) => {
@@ -12,7 +14,7 @@ const getIcon = (image?: string) => {
   return <Box className="size-4" />;
 };
 
-export const ServiceNode = memo(({ data }: NodeProps<ServiceNodeType>) => {
+export const ServiceNode = memo(({ data }: NodeProps<ServiceReactFlowNode>) => {
   return (
     <div className="relative group">
       {/* Input Handle (Top) */}

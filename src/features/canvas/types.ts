@@ -1,5 +1,5 @@
-import { Node, Edge, OnNodesChange, OnEdgesChange, OnConnect } from '@xyflow/react';
-import { ComposeGraph } from '@/features/parser/types';
+import type { Node, Edge, OnNodesChange, OnEdgesChange, OnConnect } from '@xyflow/react';
+import type { ComposeGraph } from '@/features/parser/types';
 
 export interface CanvasState {
   nodes: Node[];

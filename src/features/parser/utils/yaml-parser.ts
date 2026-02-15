@@ -2,7 +2,7 @@ import yaml from 'js-yaml';
 import { ZodError } from 'zod';
 import { ComposeFileSchema } from '../schemas/compose.schema';
 import { normalizeToGraph } from './graph-normalizer';
-import { ParseResult } from '../types';
+import type { ParseResult } from '../types';
 
 export function parseDockerCompose(yamlContent: string): ParseResult {
   try {
@@ -24,7 +24,7 @@ export function parseDockerCompose(yamlContent: string): ParseResult {
   } catch (err) {
     if (err instanceof ZodError) {
       // Format Zod errors nicely
-      const messages = err.errors.map(e => `${e.path.join('.')}: ${e.message}`).join('\n');
+      const messages = err.issues.map(e => `${e.path.join('.')}: ${e.message}`).join('\n');
       return { success: false, error: `Validation Error:\n${messages}` };
     }
 

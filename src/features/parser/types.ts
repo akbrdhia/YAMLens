@@ -5,6 +5,7 @@ export interface ComposeGraph {
 }
 
 export interface ServiceNode {
+  [key: string]: unknown;
   id: string; // Service name
   image?: string;
   ports?: string[];
