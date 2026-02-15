@@ -6,6 +6,7 @@ import {
 import { Editor } from '@/features/editor'
 import { Canvas } from '@/features/canvas'
 import { ExportDropdown } from '@/features/export'
+import { ModeToggle } from '@/features/theme'
 
 function App() {
   return (
@@ -13,7 +14,10 @@ function App() {
       {/* Header */}
       <header className="flex items-center justify-between px-6 py-3 border-b border-border">
         <h1 className="text-lg font-semibold tracking-tight">YAMLens</h1>
-        <ExportDropdown />
+        <div className="flex items-center gap-2">
+          <ModeToggle />
+          <ExportDropdown />
+        </div>
       </header>
 
       {/* Split-screen panels */}
