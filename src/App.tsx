@@ -6,6 +6,7 @@ import {
 import { Editor } from '@/features/editor'
 import { Canvas } from '@/features/canvas'
 import { Header } from '@/shared/components/Header'
+import { CommandPalette } from '@/features/search'
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Canvas />
         </ResizablePanel>
       </ResizablePanelGroup>
+
+      <CommandPalette />
     </div>
   )
 }
