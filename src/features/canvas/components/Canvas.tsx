@@ -1,5 +1,6 @@
-import { ReactFlow, Background, Controls, MiniMap } from '@xyflow/react';
+import { ReactFlow, Background, Controls, MiniMap, type ColorMode } from '@xyflow/react';
 import '@xyflow/react/dist/style.css'; // Import styles
+import { useTheme } from 'next-themes';
 import { useCanvasStore } from '../store/useCanvasStore';
 import { ServiceNode } from './ServiceNode';
 import { DependencyEdge } from './DependencyEdge';
@@ -15,6 +16,7 @@ const edgeTypes = {
 
 export function Canvas() {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useCanvasStore();
+  const { resolvedTheme } = useTheme();
 
   return (
     <div id="react-flow-canvas" className="h-full w-full bg-background/50">
@@ -28,7 +30,7 @@ export function Canvas() {
         edgeTypes={edgeTypes}
         fitView
         className="bg-background"
-        colorMode="dark"
+        colorMode={resolvedTheme as ColorMode}
       >
         <Background gap={20} size={1} color="var(--border)" />
         <Controls className="bg-card border-border fill-foreground" />
