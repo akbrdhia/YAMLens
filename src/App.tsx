@@ -5,16 +5,12 @@ import {
 } from '@/shared/components/ui/resizable'
 import { Editor } from '@/features/editor'
 import { Canvas } from '@/features/canvas'
-import { ExportDropdown } from '@/features/export'
+import { Header } from '@/shared/components/Header'
 
 function App() {
   return (
     <div className="h-screen w-screen flex flex-col bg-background text-foreground">
-      {/* Header */}
-      <header className="flex items-center justify-between px-6 py-3 border-b border-border">
-        <h1 className="text-lg font-semibold tracking-tight">YAMLens</h1>
-        <ExportDropdown />
-      </header>
+      <Header />
 
       {/* Split-screen panels */}
       <ResizablePanelGroup orientation="horizontal" className="flex-1">
