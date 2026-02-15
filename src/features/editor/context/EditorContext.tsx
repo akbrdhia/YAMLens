@@ -3,11 +3,13 @@ import React, { createContext, useContext, useCallback, useRef } from 'react';
 interface EditorActions {
   undo: () => void;
   redo: () => void;
+  scrollToService: (name: string) => void;
 }
 
 interface EditorContextType {
   undo: () => void;
   redo: () => void;
+  scrollToService: (name: string) => void;
   registerActions: (actions: EditorActions) => void;
 }
 
@@ -32,8 +34,14 @@ export const EditorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, []);
 
+  const scrollToService = useCallback((name: string) => {
+    if (actionsRef.current) {
+      actionsRef.current.scrollToService(name);
+    }
+  }, []);
+
   return (
-    <EditorContext.Provider value={{ undo, redo, registerActions }}>
+    <EditorContext.Provider value={{ undo, redo, scrollToService, registerActions }}>
       {children}
     </EditorContext.Provider>
   );
