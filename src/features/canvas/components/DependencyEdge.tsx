@@ -1,8 +1,7 @@
-import { BaseEdge, EdgeProps, getSmoothStepPath } from '@xyflow/react';
+import { BaseEdge, type EdgeProps, getSmoothStepPath } from '@xyflow/react';
 import { memo } from 'react';
 
 export const DependencyEdge = memo(({
-  id,
   sourceX,
   sourceY,
   targetX,

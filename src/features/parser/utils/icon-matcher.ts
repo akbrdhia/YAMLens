@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   SiPostgresql, SiMysql, SiMariadb, SiMongodb, SiRedis, SiElasticsearch, // Databases
-  SiNginx, SiApache, SiCaddy, SiTraefik, // Web Servers
+  SiNginx, SiApache, SiCaddy, SiTraefikproxy, // Web Servers
   SiDocker, SiJenkins, SiGitlab, SiGithub, // DevOps
   SiNodedotjs, SiPython, SiGo, SiPhp, SiRuby, SiOpenjdk, // Languages (SiJava -> SiOpenjdk)
-  SiReact, SiVuedotjs, SiAngular, SiNextdotjs, SiNuxtdotjs, // Frameworks
+  SiReact, SiVuedotjs, SiAngular, SiNextdotjs, SiNuxt, // Frameworks
   SiRabbitmq, SiApachekafka, SiPrometheus, SiGrafana // Infra
 } from '@icons-pack/react-simple-icons';
 import { Database, Globe, Server, Box, Layers, HardDrive } from 'lucide-react';
@@ -28,7 +28,7 @@ const MAPPINGS: IconMapping[] = [
   { regex: /apache/i, icon: SiApache },
   { regex: /httpd/i, icon: SiApache },
   { regex: /caddy/i, icon: SiCaddy },
-  { regex: /traefik/i, icon: SiTraefik },
+  { regex: /traefik/i, icon: SiTraefikproxy },
 
   // Frameworks/Languages
   { regex: /node/i, icon: SiNodedotjs },
@@ -41,7 +41,7 @@ const MAPPINGS: IconMapping[] = [
   { regex: /vue/i, icon: SiVuedotjs },
   { regex: /angular/i, icon: SiAngular },
   { regex: /next/i, icon: SiNextdotjs },
-  { regex: /nuxt/i, icon: SiNuxtdotjs },
+  { regex: /nuxt/i, icon: SiNuxt },
 
   // Infra/DevOps
   { regex: /docker/i, icon: SiDocker },

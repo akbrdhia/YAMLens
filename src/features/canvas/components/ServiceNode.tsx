@@ -1,12 +1,13 @@
 import { memo } from 'react';
-import { Handle, Position, NodeProps } from '@xyflow/react';
+import { Handle, Position, type Node, type NodeProps } from '@xyflow/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { ServiceNode as ServiceNodeType } from '@/features/parser/types';
+import type { ServiceNode as ServiceNodeType } from '@/features/parser/types';
 import { getServiceIcon } from '@/features/parser'; // Import new matcher
-import { cn } from '@/lib/utils';
 import { HardDrive, Settings, Box } from 'lucide-react'; // Icons for details
 
-export const ServiceNode = memo(({ data }: NodeProps<ServiceNodeType>) => {
+type ServiceNodeProps = NodeProps<Node<ServiceNodeType, 'serviceNode'>>;
+
+export const ServiceNode = memo(({ data }: ServiceNodeProps) => {
   const Icon = getServiceIcon(data.image);
 
   return (
