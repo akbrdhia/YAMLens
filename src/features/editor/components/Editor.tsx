@@ -27,15 +27,19 @@ export function Editor() {
       <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/40">
         <span className="text-sm font-medium text-muted-foreground flex items-center gap-2">
           docker-compose.yml
-          {error && <span className="text-destructive text-xs ml-2">({error.split('\n')[0]})</span>}
         </span>
       </div>
-      <div className="flex-1 relative">
+      <div className="flex-1 relative flex flex-col">
+        {error && (
+          <div className="bg-destructive/10 border-b border-destructive/20 px-4 py-2 text-xs text-destructive flex items-center gap-2 animate-in slide-in-from-top-1">
+            <span className="font-bold">Error:</span>
+            <span className="font-mono">{error.split('\n')[0]}</span>
+          </div>
+        )}
         <textarea
           className={cn(
             "w-full h-full p-4 font-mono text-sm bg-background resize-none focus:outline-none",
-            "text-foreground placeholder:text-muted-foreground/50",
-            error ? "border-l-2 border-destructive" : ""
+            "text-foreground placeholder:text-muted-foreground/50"
           )}
           value={code}
           onChange={(e) => setCode(e.target.value)}
