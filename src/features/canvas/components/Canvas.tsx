@@ -19,7 +19,7 @@ export function Canvas() {
   const { resolvedTheme } = useTheme();
 
   return (
-    <div id="react-flow-canvas" className="h-full w-full bg-background/50 font-['Virgil']">
+    <div id="react-flow-canvas" className="h-full w-full bg-background/50 font-mono">
       <ReactFlow
         nodes={nodes}
         edges={edges}
