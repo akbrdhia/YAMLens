@@ -5,6 +5,7 @@ import {
 } from '@/shared/components/ui/resizable'
 import { Editor } from '@/features/editor'
 import { Canvas } from '@/features/canvas'
+import { ExportDropdown } from '@/features/export'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       {/* Header */}
       <header className="flex items-center justify-between px-6 py-3 border-b border-border">
         <h1 className="text-lg font-semibold tracking-tight">ComposeViz</h1>
+        <ExportDropdown />
       </header>
 
       {/* Split-screen panels */}
