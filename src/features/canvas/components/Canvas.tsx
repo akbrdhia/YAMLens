@@ -1,9 +1,33 @@
+import { ReactFlow, Background, Controls, MiniMap } from '@xyflow/react';
+import '@xyflow/react/dist/style.css'; // Import styles
+import { useCanvasStore } from '../store/useCanvasStore';
+import { ServiceNode } from './ServiceNode';
+
+// Register node types
+const nodeTypes = {
+  serviceNode: ServiceNode,
+};
+
 export function Canvas() {
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useCanvasStore();
+
   return (
-    <div className="h-full w-full flex items-center justify-center bg-background">
-      <p className="text-muted-foreground text-sm">
-        Graph will render here
-      </p>
+    <div className="h-full w-full bg-background/50">
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        nodeTypes={nodeTypes}
+        fitView
+        className="bg-background"
+        colorMode="dark"
+      >
+        <Background gap={20} size={1} color="var(--border)" />
+        <Controls className="bg-card border-border fill-foreground" />
+        <MiniMap className="bg-card border-border" nodeColor="var(--primary)" />
+      </ReactFlow>
     </div>
-  )
+  );
 }
