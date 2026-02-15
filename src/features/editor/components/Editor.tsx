@@ -7,12 +7,15 @@ import { yaml } from '@codemirror/lang-yaml';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { githubLight } from '@uiw/codemirror-theme-github';
 import { useTheme } from 'next-themes';
+import { useEditor } from '@/features/editor';
+import { undo, redo } from '@codemirror/commands';
 
 export function Editor() {
   const setGraph = useCanvasStore((state) => state.setGraph);
   const [code, setCode] = useState(DEFAULT_YAML);
   const [error, setError] = useState<string | null>(null);
   const { resolvedTheme } = useTheme();
+  const { registerActions } = useEditor();
 
   // Parse on code change (debounced in real app, immediate for now)
   useEffect(() => {
@@ -54,6 +57,12 @@ export function Editor() {
               foldGutter: true,
               highlightActiveLine: true,
               history: true,
+            }}
+            onCreateEditor={(view) => {
+              registerActions({
+                undo: () => undo(view),
+                redo: () => redo(view),
+              });
             }}
           />
         </div>

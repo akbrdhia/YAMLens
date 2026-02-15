@@ -4,11 +4,14 @@ import '@fontsource/cascadia-code/index.css'
 import './index.css'
 import App from './App.tsx'
 import { ThemeProvider } from '@/shared/providers/theme-provider'
+import { EditorProvider } from '@/features/editor'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <App />
+      <EditorProvider>
+        <App />
+      </EditorProvider>
     </ThemeProvider>
   </StrictMode>,
 )
