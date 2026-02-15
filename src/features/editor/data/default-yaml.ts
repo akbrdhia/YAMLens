@@ -4,7 +4,7 @@ services:
   # Frontend Application
   frontend:
     image: node:18-alpine
-    container_name: composeviz-web
+    container_name: yamlens-web
     ports:
       - "3000:3000"
     environment:

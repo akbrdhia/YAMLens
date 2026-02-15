@@ -1,5 +1,5 @@
 ## 1. Project Overview
-* **Name:** ComposeViz
+* **Name:** YAMLens
 * **Tagline:** Turn Docker Compose YAML into shareable architecture diagrams instantly.
 * **Vision:** 100% client-side web tool. Paste `docker-compose.yml` -> auto-generate interactive graphs.
 * **Timeline:** 1-Week Sprint.

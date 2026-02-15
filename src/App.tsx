@@ -12,7 +12,7 @@ function App() {
     <div className="h-screen w-screen flex flex-col bg-background text-foreground">
       {/* Header */}
       <header className="flex items-center justify-between px-6 py-3 border-b border-border">
-        <h1 className="text-lg font-semibold tracking-tight">ComposeViz</h1>
+        <h1 className="text-lg font-semibold tracking-tight">YAMLens</h1>
         <ExportDropdown />
       </header>
 
