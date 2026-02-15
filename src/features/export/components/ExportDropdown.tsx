@@ -14,7 +14,7 @@ export function ExportDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" disabled={isExporting}>
+        <Button variant="secondary" size="sm" disabled={isExporting}>
           <Download className="size-4 mr-2" />
           {isExporting ? 'Exporting...' : 'Export'}
         </Button>
