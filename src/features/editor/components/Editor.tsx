@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { parseDockerCompose } from '@/features/parser';
 import { useCanvasStore } from '@/features/canvas';
 import { cn } from '@/lib/utils';
+import { DEFAULT_YAML } from '../data/default-yaml';
 
 export function Editor() {
   const setGraph = useCanvasStore((state) => state.setGraph);
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState(DEFAULT_YAML);
   const [error, setError] = useState<string | null>(null);
 
   // Parse on code change (debounced in real app, immediate for now)
