@@ -17,7 +17,7 @@ export function Canvas() {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useCanvasStore();
 
   return (
-    <div className="h-full w-full bg-background/50">
+    <div id="react-flow-canvas" className="h-full w-full bg-background/50">
       <ReactFlow
         nodes={nodes}
         edges={edges}
