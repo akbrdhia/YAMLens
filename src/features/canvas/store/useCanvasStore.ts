@@ -8,7 +8,7 @@ import {
   type NodeChange,
 } from '@xyflow/react';
 import type { CanvasState } from '../types';
-import { layoutGraph } from '../utils/layout-grid';
+import { layoutGraph } from '../utils/layout-dagre';
 
 export const useCanvasStore = create<CanvasState>((set, get) => ({
   nodes: [],
