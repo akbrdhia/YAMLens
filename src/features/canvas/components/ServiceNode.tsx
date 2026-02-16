@@ -16,7 +16,12 @@ type ServiceNodeProps = NodeProps<Node<ServiceNodeType, "serviceNode">>;
 
 export const ServiceNode = memo(({ data }: ServiceNodeProps) => {
   const Icon = getServiceIcon(data.image);
-  const { hoveredNode, setHoveredNode, edges, setDetailsNodeId } = useCanvasStore();
+
+  // Use granular selectors to prevent re-renders when 'nodes' change (dragging)
+  const hoveredNode = useCanvasStore((s) => s.hoveredNode);
+  const edges = useCanvasStore((s) => s.edges);
+  const setHoveredNode = useCanvasStore((s) => s.setHoveredNode);
+  const setDetailsNodeId = useCanvasStore((s) => s.setDetailsNodeId);
 
   const isDimmed = useMemo(() => {
     if (!hoveredNode || hoveredNode === data.id) return false;

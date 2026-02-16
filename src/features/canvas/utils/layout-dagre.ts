@@ -22,6 +22,12 @@ export function layoutGraph(graph: ComposeGraph, direction: 'TB' | 'LR' = 'TB'):
     dagreGraph.setNode(net, { label: net, clusterLabelPos: 'top', width: 100, height: 100 });
   });
 
+  // 1.5 Add Volume Nodes to Dagre
+  const volumes = graph.volumes || {};
+  Object.values(volumes).forEach((volume) => {
+    dagreGraph.setNode(volume.id, { width: 200, height: 80 });
+  });
+
   // 2. Add Service Nodes to Dagre
   Object.values(graph.services).forEach((service) => {
     dagreGraph.setNode(service.id, { width: NODE_WIDTH, height: NODE_HEIGHT });
@@ -44,12 +50,11 @@ export function layoutGraph(graph: ComposeGraph, direction: 'TB' | 'LR' = 'TB'):
   // 5. Transform Network Nodes (Parents)
   networks.forEach((net) => {
     const nodeWithPosition = dagreGraph.node(net);
-    // Safety check if dagre dropped the node (shouldn't happen)
     if (!nodeWithPosition) return;
 
     nodes.push({
       id: net,
-      type: 'networkNode', // We need to create this component
+      type: 'networkNode',
       position: {
         x: nodeWithPosition.x - nodeWithPosition.width / 2,
         y: nodeWithPosition.y - nodeWithPosition.height / 2,
@@ -96,6 +101,22 @@ export function layoutGraph(graph: ComposeGraph, direction: 'TB' | 'LR' = 'TB'):
     });
   });
 
+  // 6.5 Transform Volume Nodes
+  Object.values(volumes).forEach((volume) => {
+    const nodeWithPosition = dagreGraph.node(volume.id);
+    if (!nodeWithPosition) return;
+
+    nodes.push({
+      id: volume.id,
+      type: 'volumeNode',
+      position: {
+        x: nodeWithPosition.x - 200 / 2,
+        y: nodeWithPosition.y - 80 / 2,
+      },
+      data: { ...volume },
+    });
+  });
+
   // 7. Create ReactFlow edges
   const edges: Edge[] = graph.edges.map((edge) => ({
     id: `${edge.source}-${edge.target}`,
@@ -103,7 +124,12 @@ export function layoutGraph(graph: ComposeGraph, direction: 'TB' | 'LR' = 'TB'):
     target: edge.target,
     type: 'dependencyEdge',
     animated: true,
-    style: { stroke: 'var(--foreground)', strokeWidth: 1.5, opacity: 0.5 },
+    style: {
+      stroke: edge.type === 'volume' ? 'var(--accent-foreground)' : 'var(--foreground)',
+      strokeWidth: 1.5,
+      opacity: 0.5,
+      strokeDasharray: edge.type === 'volume' ? '5 5' : undefined // Dashed for volumes
+    },
     markerEnd: {
       type: MarkerType.ArrowClosed,
     },

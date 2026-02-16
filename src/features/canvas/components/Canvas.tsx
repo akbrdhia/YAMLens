@@ -4,12 +4,14 @@ import { useTheme } from 'next-themes';
 import { useCanvasStore } from '../store/useCanvasStore';
 import { ServiceNode } from './ServiceNode';
 import { NetworkNode } from './NetworkNode';
+import { VolumeNode } from './VolumeNode';
 import { DependencyEdge } from './DependencyEdge';
 
 // Register node types
 const nodeTypes = {
   serviceNode: ServiceNode,
   networkNode: NetworkNode,
+  volumeNode: VolumeNode,
 };
 
 const edgeTypes = {

@@ -2,7 +2,13 @@
 export interface ComposeGraph {
   services: Record<string, ServiceNode>;
   networks: string[];
+  volumes: Record<string, VolumeNode>;
   edges: ServiceEdge[];
+}
+
+export interface VolumeNode {
+  id: string;
+  type: 'volume' | 'bind';
 }
 
 export interface ServiceNode {
@@ -19,7 +25,7 @@ export interface ServiceNode {
 export interface ServiceEdge {
   source: string;
   target: string;
-  type: 'depends_on' | 'network' | 'link';
+  type: 'depends_on' | 'network' | 'link' | 'volume';
   label?: string;
 }
 

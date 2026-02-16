@@ -1,13 +1,14 @@
 import type { ComposeFile } from '../schemas/compose.schema';
-import type { ComposeGraph, ServiceNode, ServiceEdge } from '../types';
+import type { ComposeGraph, ServiceNode, ServiceEdge, VolumeNode } from '../types';
 
 export function normalizeToGraph(compose: ComposeFile): ComposeGraph {
   const services: Record<string, ServiceNode> = {};
+  const volumes: Record<string, VolumeNode> = {};
   const edges: ServiceEdge[] = [];
   const allNetworks = new Set<string>();
 
   if (!compose.services) {
-    return { services: {}, edges: [], networks: [] };
+    return { services: {}, edges: [], networks: [], volumes: {} };
   }
 
   // 1. Create Nodes
@@ -46,6 +47,31 @@ export function normalizeToGraph(compose: ComposeFile): ComposeGraph {
       dependsOnDeps = Object.keys(def.depends_on);
     }
 
+    // Extract Volumes
+    if (def.volumes) {
+      def.volumes.forEach((volString) => {
+        // Volume string format: "source:target:mode"
+        const [source] = volString.split(':');
+        if (!source) return;
+
+        const isBind = source.startsWith('.') || source.startsWith('/');
+        const volType = isBind ? 'bind' : 'volume';
+
+        // Add volume node if it doesn't exist
+        if (!volumes[source]) {
+          volumes[source] = { id: source, type: volType };
+        }
+
+        // Add edge from Service to Volume
+        edges.push({
+          source: name,
+          target: source,
+          type: 'volume', // We need to handle this type in rendering
+          label: 'mounts',
+        });
+      });
+    }
+
     services[name] = {
       id: name,
       image: def.image,
@@ -74,5 +100,5 @@ export function normalizeToGraph(compose: ComposeFile): ComposeGraph {
     }
   });
 
-  return { services, edges, networks: Array.from(allNetworks) };
+  return { services, edges, networks: Array.from(allNetworks), volumes };
 }
