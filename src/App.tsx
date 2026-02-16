@@ -7,6 +7,7 @@ import { Editor } from '@/features/editor'
 import { Canvas, DetailsPanel } from '@/features/canvas'
 import { Header } from '@/shared/components/Header'
 import { CommandPalette } from '@/features/search'
+import { Toaster } from 'sonner'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
 
       <CommandPalette />
       <DetailsPanel />
+      <Toaster />
     </div>
   )
 }
