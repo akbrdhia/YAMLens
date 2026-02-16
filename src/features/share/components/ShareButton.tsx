@@ -9,7 +9,7 @@ export const ShareButton = () => {
 
   return (
     <Button
-      variant="default" // Changed to default (primary) for emphasis
+      variant="default"
       size="sm"
       className="gap-2 shadow-sm font-medium bg-blue-600 hover:bg-blue-700 text-white border border-blue-500/50"
       onClick={() => shareCode(code)}

@@ -30,22 +30,22 @@ export const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 rounded-md hover:bg-background hover:text-foreground hover:shadow-sm transition-all"
+            className="h-8 w-8 rounded-md hover:bg-accent hover:text-accent-foreground transition-all"
             onClick={undo}
             title="Undo (Ctrl+Z)"
           >
-            <Undo2 className="w-4 h-4 text-muted-foreground" />
+            <Undo2 className="w-4 h-4" />
             <span className="sr-only">Undo</span>
           </Button>
-          <div className="w-[1px] h-4 bg-border/40 mx-0.5" />
+          <div className="w-[1px] h-4 bg-border mx-0.5" />
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 rounded-md hover:bg-background hover:text-foreground hover:shadow-sm transition-all"
+            className="h-8 w-8 rounded-md hover:bg-accent hover:text-accent-foreground transition-all"
             onClick={redo}
             title="Redo (Ctrl+Y)"
           >
-            <Redo2 className="w-4 h-4 text-muted-foreground" />
+            <Redo2 className="w-4 h-4" />
             <span className="sr-only">Redo</span>
           </Button>
         </div>
@@ -58,12 +58,12 @@ export const Header = () => {
           <Button
             variant="outline"
             size="icon"
-            className="h-9 w-9 border-border/60 hover:bg-muted/50"
+            className="h-9 w-9 border-border/60 hover:bg-accent hover:text-accent-foreground"
             asChild
             title="View on GitHub"
           >
             <a href="https://github.com/akbrdhia/YAMLens" target="_blank" rel="noreferrer">
-              <SiGithub className="w-4 h-4 opacity-80" />
+              <SiGithub className="w-4 h-4 text-foreground" />
               <span className="sr-only">GitHub</span>
             </a>
           </Button>
