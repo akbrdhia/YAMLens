@@ -27,7 +27,7 @@ export function Editor() {
       const obj = jsYaml.load(code);
       const formatted = jsYaml.dump(obj, { indent: 2, lineWidth: -1 });
       setCode(formatted);
-    } catch (e) {
+    } catch {
       // Ignore format errors if code is invalid
     }
   };
@@ -36,18 +36,24 @@ export function Editor() {
     setSearchOpen(true);
   };
 
-  // Parse on code change (debounced in real app, immediate for now)
-  useEffect(() => {
-    if (!code.trim()) return;
+  const handleCodeChange = (value: string) => {
+    setCode(value);
+    if (!value.trim()) return;
 
-    const result = parseDockerCompose(code);
+    const result = parseDockerCompose(value);
     if (result.success && result.data) {
       setGraph(result.data);
       setError(null);
     } else {
       setError(result.error || 'Unknown error');
     }
-  }, [code, setGraph]);
+  };
+
+  // Initial parse on mount
+  useEffect(() => {
+    handleCodeChange(code);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="h-full w-full flex flex-col bg-background">
@@ -95,7 +101,7 @@ export function Editor() {
                 },
               ]),
             ]}
-            onChange={(value) => setCode(value)}
+            onChange={handleCodeChange}
             theme={resolvedTheme === 'dark' ? vscodeDark : githubLight}
             className="h-full text-sm font-mono"
             basicSetup={{

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useCallback, useRef } from 'react';
+import React, { createContext, useCallback, useRef } from 'react';
 
 interface EditorActions {
   undo: () => void;
@@ -14,6 +14,10 @@ interface EditorContextType {
 }
 
 const EditorContext = createContext<EditorContextType | undefined>(undefined);
+
+export { EditorContext };
+export type { EditorContextType, EditorActions };
+
 
 export const EditorProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const actionsRef = useRef<EditorActions | null>(null);
@@ -45,12 +49,4 @@ export const EditorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       {children}
     </EditorContext.Provider>
   );
-};
-
-export const useEditor = () => {
-  const context = useContext(EditorContext);
-  if (context === undefined) {
-    throw new Error('useEditor must be used within an EditorProvider');
-  }
-  return context;
 };
