@@ -7,7 +7,10 @@ import {
   Undo2,
   Redo2,
   Download,
-  Server
+  Server,
+  HardDrive,
+  Network,
+  Box
 } from "lucide-react";
 import { useUIStore } from "@/shared/store/useUIStore";
 import { useCanvasStore } from "@/features/canvas";
@@ -67,19 +70,40 @@ export function useCommandRegistry() {
       },
     ];
 
-    // Dynamic commands for services
+    // Dynamic commands for nodes
     nodes.forEach((node) => {
-      const serviceName = node.data.id as string;
-      list.push({
-        id: `jump-to-${node.id}`,
-        title: `Jump to ${serviceName}`,
-        icon: Server,
-        section: "Services",
-        action: () => {
+      const name = node.data.label ? node.data.label as string : node.data.id as string;
+      const type = node.type;
+
+      let icon = Box;
+      let section = "Other";
+      let action = () => {
+        fitView({ nodes: [{ id: node.id }], duration: 1000, padding: 0.5 });
+        setSearchOpen(false);
+      };
+
+      if (type === 'serviceNode') {
+        icon = Server;
+        section = "Services";
+        action = () => {
           fitView({ nodes: [{ id: node.id }], duration: 1000, padding: 0.5 });
           scrollToService(node.id);
           setSearchOpen(false);
-        },
+        };
+      } else if (type === 'volumeNode') {
+        icon = HardDrive;
+        section = "Volumes";
+      } else if (type === 'networkNode') {
+        icon = Network;
+        section = "Networks";
+      }
+
+      list.push({
+        id: `jump-to-${node.id}`,
+        title: `Jump to ${name}`,
+        icon,
+        section,
+        action,
       });
     });
 
