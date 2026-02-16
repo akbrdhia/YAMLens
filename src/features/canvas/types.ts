@@ -8,4 +8,8 @@ export interface CanvasState {
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
   setGraph: (graph: ComposeGraph) => void;
+  hoveredNode: string | null;
+  setHoveredNode: (nodeId: string | null) => void;
+  detailsNodeId: string | null;
+  setDetailsNodeId: (nodeId: string | null) => void;
 }

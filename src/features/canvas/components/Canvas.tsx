@@ -3,11 +3,15 @@ import '@xyflow/react/dist/style.css'; // Import styles
 import { useTheme } from 'next-themes';
 import { useCanvasStore } from '../store/useCanvasStore';
 import { ServiceNode } from './ServiceNode';
+import { NetworkNode } from './NetworkNode';
+import { VolumeNode } from './VolumeNode';
 import { DependencyEdge } from './DependencyEdge';
 
 // Register node types
 const nodeTypes = {
   serviceNode: ServiceNode,
+  networkNode: NetworkNode,
+  volumeNode: VolumeNode,
 };
 
 const edgeTypes = {
@@ -15,7 +19,7 @@ const edgeTypes = {
 };
 
 export function Canvas() {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useCanvasStore();
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, setHoveredNode } = useCanvasStore();
   const { resolvedTheme } = useTheme();
 
   return (
@@ -26,6 +30,7 @@ export function Canvas() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onPaneClick={() => setHoveredNode(null)}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         fitView

@@ -4,7 +4,7 @@ import {
   ResizablePanelGroup,
 } from '@/shared/components/ui/resizable'
 import { Editor } from '@/features/editor'
-import { Canvas } from '@/features/canvas'
+import { Canvas, DetailsPanel } from '@/features/canvas'
 import { Header } from '@/shared/components/Header'
 import { CommandPalette } from '@/features/search'
 
@@ -25,6 +25,7 @@ function App() {
       </ResizablePanelGroup>
 
       <CommandPalette />
+      <DetailsPanel />
     </div>
   )
 }

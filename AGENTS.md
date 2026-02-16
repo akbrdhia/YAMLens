@@ -1,38 +1,55 @@
-## 1. Project Overview
-* **Name:** YAMLens
-* **Tagline:** Turn Docker Compose YAML into shareable architecture diagrams instantly.
-* **Vision:** 100% client-side web tool. Paste `docker-compose.yml` -> auto-generate interactive graphs.
-* **Timeline:** 1-Week Sprint.
-* **Environment:** Deployed on personal bare-metal server (Coolify + Traefik).
+# YAMLens - Project Manifest
 
-## 2. Tech Stack (Client-Side Only)
-* **Core:** React.js (Vite + TypeScript).
-* **UI:** TailwindCSS, Shadcn UI (Dark mode, Vercel-like aesthetics).
-* **Logic/Engine:** `js-yaml` (Parsing), `reactflow` (Canvas), `dagre` (Auto-layout).
-* **Export:** `html-to-image` (PNG/SVG export).
-* **Assets:** `lucide-react`, `simple-icons` (Service icons).
+## 1. Overview
+*   **Name:** YAMLens (formerly ComposeViz)
+*   **Version:** v1.0.0
+*   **Description:** A 100% client-side tool to visualize Docker Compose files as interactive architecture diagrams.
+*   **Live Demo:** [yamlens.akbardhia.me](https://yamlens.akbardhia.me)
 
-## 3. Core Features (MVP)
-* **Split-Screen Editor:** Left = Code Editor (YAML), Right = Live Canvas Preview.
-* **Smart Parsing:** `services` = Nodes. `depends_on`/`networks` = Edges.
-* **Auto-Icon Matching:** Regex on `image` string (e.g., "postgres" -> Elephant icon).
-* **Auto-Layout:** Dagre handles node positioning (Top-to-Bottom/Left-to-Right).
-* **1-Click Export:** Download transparent PNG/SVG for READMEs.
+## 2. Architecture
+*   **Pattern:** Feature-based (`src/features/*`).
+*   **State Management:** Zustand (`useCanvasStore`, `useUIStore`, `useEditor` Context).
+*   **Styling:** Tailwind CSS v4 + Shadcn UI (Theming via `next-themes`).
 
-## 4. Transformation Pipeline
-`YAML String` -> `js-yaml.load()` -> `Raw JS Object` -> `Custom Parser` -> `React Flow Nodes/Edges Array` -> `Dagre Layout (X/Y)` -> `Render`.
+## 3. Tech Stack
+*   **Core:** React 19, TypeScript, Vite.
+*   **UI:** Tailwind CSS v4, Shadcn UI, Lucide Icons, Simple Icons.
+*   **Editor:** CodeMirror 6 (`@uiw/react-codemirror`) with YAML language support.
+*   **Visualization:** React Flow (`@xyflow/react`), Dagre (Auto-Layout).
+*   **Logic:** `js-yaml` (Parsing), `zod` (Validation), `html-to-image` (Export).
 
-## 5. 7-Day Roadmap
-* **Day 1:** Vite/Tailwind init. Split-screen layout.
-* **Day 2:** `js-yaml` logic. Extract services, ports, volumes.
-* **Day 3:** `reactflow` setup. Build custom Dark Mode nodes.
-* **Day 4:** Icon matching logic. Map edges using `depends_on`.
-* **Day 5:** `dagre` auto-layout integration.
-* **Day 6:** Export functionality. Error handling for invalid YAML.
-* **Day 7:** UI Polish, default demo data, Coolify deployment.
+## 4. Key Features (Implemented)
+*   **Smart Editor:** Syntax highlighting, formatting, undo/redo (`Ctrl+Z`), and error validation.
+*   **Interactive Graph:**
+    *   **Auto-Layout:** Hierarchical positioning using Dagre.
+    *   **Interaction:** Click-to-highlight dependencies, dim unrelated nodes.
+    *   **Rich Nodes:** Brand icons (Postgres, Redis, etc.), port/volume/env indicators.
+*   **Navigation:** Global Command Palette (`Ctrl+K`) to jump to services or find text.
+*   **Theme:** Full Light/Dark mode support with custom "Docker Blue" branding.
+*   **Export:** Download as PNG/SVG or copy to clipboard.
 
-## 6. AI Directives
-* **Role:** Senior Frontend & DevOps Engineer.
-* **Tone:** Direct, concise, zero-fluff. Assume user has solid Docker/React fundamentals.
-* **Focus:** Code implementation, specifically the YAML-to-ReactFlow transformation logic.
-* **Constraints:** Strictly client-side (no backend/auth). Keep scope within a 1-week MVP. Prioritize premium, developer-centric UI design.
+## 5. Folder Structure
+```
+src/
+  features/
+    canvas/    # ReactFlow logic, Custom Nodes, Layout Engine
+    editor/    # CodeMirror config, Undo/Redo context
+    parser/    # YAML -> Zod -> IR transformation
+    export/    # Image export hooks and UI
+    search/    # Command Palette (cmdk)
+    theme/     # Theme toggle logic
+  shared/
+    components/ # Reusable UI (Shadcn), Header
+    store/      # Global UI store
+    providers/  # Theme/Editor providers
+```
+
+## 6. Roadmap (Future)
+*   **v1.1:** URL Sharing (compress YAML to URL param).
+*   **v1.2:** Visual Editing (Drag-to-connect updates YAML).
+*   **v2.0:** Multi-file support (`extends`, `include`).
+
+## 7. AI Directives
+*   **Role:** Senior Frontend Engineer.
+*   **Style:** Maintain the "feature-based" architecture. Do not use `src/components` for feature-specific logic.
+*   **UX:** Prioritize keyboard accessibility (`Ctrl+K`) and visual clarity (Virgil font, clean lines).
