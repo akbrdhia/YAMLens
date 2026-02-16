@@ -5,7 +5,7 @@ export interface Command {
   title: string;
   icon: LucideIcon;
   shortcut?: string; // e.g. "mod+k"
-  section: "Navigation" | "Editor" | "General" | "Services";
+  section: "Navigation" | "Editor" | "General" | "Services" | "Volumes" | "Networks" | "Other";
   action: () => void;
 }
 

@@ -76,7 +76,7 @@ export function useCommandRegistry() {
       const type = node.type;
 
       let icon = Box;
-      let section = "Other";
+      let section: Command['section'] = "Other";
       let action = () => {
         fitView({ nodes: [{ id: node.id }], duration: 1000, padding: 0.5 });
         setSearchOpen(false);

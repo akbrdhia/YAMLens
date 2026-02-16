@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card";
 import type { ServiceNode as ServiceNodeType } from "@/features/parser/types";
-import { getServiceIcon } from "@/features/parser"; // Import new matcher
+import { ServiceIcon } from "./ServiceIcon";
 import { HardDrive, Settings, Box, Info } from "lucide-react"; // Icons for details
 import { useCanvasStore } from "@/features/canvas";
 import { cn } from "@/lib/utils";
@@ -15,8 +15,6 @@ import { cn } from "@/lib/utils";
 type ServiceNodeProps = NodeProps<Node<ServiceNodeType, "serviceNode">>;
 
 export const ServiceNode = memo(({ data }: ServiceNodeProps) => {
-  const Icon = getServiceIcon(data.image);
-
   // Use granular selectors to prevent re-renders when 'nodes' change (dragging)
   const hoveredNode = useCanvasStore((s) => s.hoveredNode);
   const edges = useCanvasStore((s) => s.edges);
@@ -60,7 +58,7 @@ export const ServiceNode = memo(({ data }: ServiceNodeProps) => {
         {/* Header */}
         <CardHeader className="p-3 pb-2 flex flex-row items-center gap-2 space-y-0 border-b border-border/50 bg-muted/20">
           <div className="p-1.5 bg-background border border-border rounded-md text-foreground">
-            <Icon className="size-5" />
+            <ServiceIcon image={data.image} className="size-5" />
           </div>
           <CardTitle
             className="text-sm font-semibold truncate flex-1"

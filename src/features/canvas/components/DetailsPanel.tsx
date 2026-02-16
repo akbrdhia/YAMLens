@@ -14,9 +14,9 @@ import {
 } from "@/shared/components/ui/tabs";
 import { Button } from "@/shared/components/ui/button";
 import { useCanvasStore } from "@/features/canvas";
-import { getServiceIcon } from "@/features/parser";
+import { ServiceIcon } from "./ServiceIcon";
 import { useEditor } from "@/features/editor";
-import { Box, HardDrive, Network, Globe, Code, Copy, Check } from "lucide-react";
+import { HardDrive, Network, Globe, Code, Copy, Check } from "lucide-react";
 import type { ServiceNode as ServiceNodeType } from "@/features/parser/types";
 
 export const DetailsPanel = () => {
@@ -29,7 +29,6 @@ export const DetailsPanel = () => {
   }, [nodes, detailsNodeId]);
 
   const data = selectedNode?.data as ServiceNodeType | undefined;
-  const Icon = data ? getServiceIcon(data.image) : Box;
 
   const isOpen = !!detailsNodeId;
 
@@ -59,7 +58,7 @@ export const DetailsPanel = () => {
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="p-2 bg-muted rounded-lg border border-border">
-                <Icon className="size-8 text-foreground" />
+                <ServiceIcon image={data.image} className="size-8 text-foreground" />
               </div>
               <div>
                 <SheetTitle className="text-xl truncate">{data.id}</SheetTitle>
