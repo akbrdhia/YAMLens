@@ -1,7 +1,4 @@
-import { useState, useEffect } from 'react';
-import { parseDockerCompose } from '@/features/parser';
-import { useCanvasStore } from '@/features/canvas';
-import { DEFAULT_YAML } from '../data/default-yaml';
+import { useEffect } from 'react';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { yaml } from '@codemirror/lang-yaml';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
@@ -11,14 +8,13 @@ import { useEditor } from '@/features/editor';
 import { undo, redo } from '@codemirror/commands';
 import { keymap } from '@codemirror/view';
 import { useUIStore } from '@/shared/store/useUIStore';
+import { useCodeStore } from '@/shared/store/useCodeStore';
 import { Search, Sparkles } from 'lucide-react';
 import jsYaml from 'js-yaml';
 
 export function Editor() {
-  const setGraph = useCanvasStore((state) => state.setGraph);
   const setSearchOpen = useUIStore((state) => state.setSearchOpen);
-  const [code, setCode] = useState(DEFAULT_YAML);
-  const [error, setError] = useState<string | null>(null);
+  const { code, setCode, error } = useCodeStore();
   const { resolvedTheme } = useTheme();
   const { registerActions } = useEditor();
 
@@ -36,22 +32,9 @@ export function Editor() {
     setSearchOpen(true);
   };
 
-  const handleCodeChange = (value: string) => {
-    setCode(value);
-    if (!value.trim()) return;
-
-    const result = parseDockerCompose(value);
-    if (result.success && result.data) {
-      setGraph(result.data);
-      setError(null);
-    } else {
-      setError(result.error || 'Unknown error');
-    }
-  };
-
   // Initial parse on mount
   useEffect(() => {
-    handleCodeChange(code);
+    setCode(code);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -101,7 +84,7 @@ export function Editor() {
                 },
               ]),
             ]}
-            onChange={handleCodeChange}
+            onChange={setCode}
             theme={resolvedTheme === 'dark' ? vscodeDark : githubLight}
             className="h-full text-sm font-mono"
             basicSetup={{

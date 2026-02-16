@@ -7,8 +7,12 @@ import { Editor } from '@/features/editor'
 import { Canvas, DetailsPanel } from '@/features/canvas'
 import { Header } from '@/shared/components/Header'
 import { CommandPalette } from '@/features/search'
+import { Toaster } from 'sonner'
+import { useUrlState } from '@/features/share/hooks/useUrlState'
 
 function App() {
+  useUrlState()
+
   return (
     <div className="h-screen w-screen flex flex-col bg-background text-foreground">
       <Header />
@@ -26,6 +30,7 @@ function App() {
 
       <CommandPalette />
       <DetailsPanel />
+      <Toaster />
     </div>
   )
 }
