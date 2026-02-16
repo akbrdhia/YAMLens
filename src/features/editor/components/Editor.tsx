@@ -11,12 +11,16 @@ import { useCodeStore } from '@/shared/store/useCodeStore';
 import { toast } from 'sonner';
 import { Search, Sparkles } from 'lucide-react';
 import jsYaml from 'js-yaml';
+import { FileTabs } from './FileTabs';
 
 export function Editor() {
   const setSearchOpen = useUIStore((state) => state.setSearchOpen);
-  const { code, setCode, error } = useCodeStore();
+  const { files, activeFileId, setCode, error } = useCodeStore();
   const { resolvedTheme } = useTheme();
   const { registerActions } = useEditor();
+
+  const activeFile = files.find(f => f.id === activeFileId);
+  const code = activeFile?.content || '';
 
   const handleFormat = () => {
     try {
@@ -35,10 +39,8 @@ export function Editor() {
 
   return (
     <div className="h-full w-full flex flex-col bg-background">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/40">
-        <span className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-          docker-compose.yml
-        </span>
+      <div className="flex items-center justify-between border-b border-border bg-muted/40 pr-4">
+        <FileTabs />
         <div className="flex items-center gap-1">
           <button
             onClick={handleFormat}
