@@ -2,6 +2,7 @@ import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
 import { ModeToggle } from "@/features/theme"
 import { ExportDropdown } from "@/features/export"
+import { ShareButton } from "@/features/share/components/ShareButton"
 import { Button } from "@/shared/components/ui/button"
 import { SiGithub } from "@icons-pack/react-simple-icons"
 import { Undo2, Redo2 } from "lucide-react"
@@ -49,6 +50,7 @@ export const Header = () => {
           </a>
         </Button>
         <ModeToggle />
+        <ShareButton />
         <ExportDropdown />
       </div>
     </header>

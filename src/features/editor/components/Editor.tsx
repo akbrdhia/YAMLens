@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { parseDockerCompose } from '@/features/parser';
 import { useCanvasStore } from '@/features/canvas';
-import { DEFAULT_YAML } from '../data/default-yaml';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { yaml } from '@codemirror/lang-yaml';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
@@ -11,13 +10,14 @@ import { useEditor } from '@/features/editor';
 import { undo, redo } from '@codemirror/commands';
 import { keymap } from '@codemirror/view';
 import { useUIStore } from '@/shared/store/useUIStore';
+import { useCodeStore } from '@/shared/store/useCodeStore';
 import { Search, Sparkles } from 'lucide-react';
 import jsYaml from 'js-yaml';
 
 export function Editor() {
   const setGraph = useCanvasStore((state) => state.setGraph);
   const setSearchOpen = useUIStore((state) => state.setSearchOpen);
-  const [code, setCode] = useState(DEFAULT_YAML);
+  const { code, setCode } = useCodeStore();
   const [error, setError] = useState<string | null>(null);
   const { resolvedTheme } = useTheme();
   const { registerActions } = useEditor();
