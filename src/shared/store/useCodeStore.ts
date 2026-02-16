@@ -55,6 +55,7 @@ export const useCodeStore = create<CodeState>((set, get) => {
   return {
     files: initialFiles,
     activeFileId: initialFileId,
+    isMergedView: false,
     mergedCode: DEFAULT_YAML,
     error,
 
