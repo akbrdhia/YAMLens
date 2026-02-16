@@ -8,7 +8,7 @@ import {
 } from "@/shared/components/ui/card";
 import type { ServiceNode as ServiceNodeType } from "@/features/parser/types";
 import { getServiceIcon } from "@/features/parser"; // Import new matcher
-import { HardDrive, Settings, Box } from "lucide-react"; // Icons for details
+import { HardDrive, Settings, Box, Info } from "lucide-react"; // Icons for details
 import { useCanvasStore } from "@/features/canvas";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +16,7 @@ type ServiceNodeProps = NodeProps<Node<ServiceNodeType, "serviceNode">>;
 
 export const ServiceNode = memo(({ data }: ServiceNodeProps) => {
   const Icon = getServiceIcon(data.image);
-  const { hoveredNode, setHoveredNode, edges } = useCanvasStore();
+  const { hoveredNode, setHoveredNode, edges, setDetailsNodeId } = useCanvasStore();
 
   const isDimmed = useMemo(() => {
     if (!hoveredNode || hoveredNode === data.id) return false;
@@ -63,6 +63,16 @@ export const ServiceNode = memo(({ data }: ServiceNodeProps) => {
           >
             {data.id}
           </CardTitle>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setDetailsNodeId(data.id);
+            }}
+            className="p-1 hover:bg-muted rounded-full text-muted-foreground hover:text-foreground transition-colors"
+            title="View Details"
+          >
+            <Info className="size-4" />
+          </button>
         </CardHeader>
 
         {/* Body */}

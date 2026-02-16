@@ -3,11 +3,13 @@ import '@xyflow/react/dist/style.css'; // Import styles
 import { useTheme } from 'next-themes';
 import { useCanvasStore } from '../store/useCanvasStore';
 import { ServiceNode } from './ServiceNode';
+import { NetworkNode } from './NetworkNode';
 import { DependencyEdge } from './DependencyEdge';
 
 // Register node types
 const nodeTypes = {
   serviceNode: ServiceNode,
+  networkNode: NetworkNode,
 };
 
 const edgeTypes = {

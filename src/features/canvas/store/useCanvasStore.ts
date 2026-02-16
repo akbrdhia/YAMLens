@@ -35,4 +35,6 @@ export const useCanvasStore = create<CanvasState>((set, get) => ({
   },
   hoveredNode: null,
   setHoveredNode: (nodeId) => set({ hoveredNode: nodeId }),
+  detailsNodeId: null,
+  setDetailsNodeId: (nodeId) => set({ detailsNodeId: nodeId }),
 }));

@@ -4,9 +4,10 @@ import type { ComposeGraph, ServiceNode, ServiceEdge } from '../types';
 export function normalizeToGraph(compose: ComposeFile): ComposeGraph {
   const services: Record<string, ServiceNode> = {};
   const edges: ServiceEdge[] = [];
+  const allNetworks = new Set<string>();
 
   if (!compose.services) {
-    return { services: {}, edges: [] };
+    return { services: {}, edges: [], networks: [] };
   }
 
   // 1. Create Nodes
@@ -18,6 +19,13 @@ export function normalizeToGraph(compose: ComposeFile): ComposeGraph {
     } else if (def.networks && typeof def.networks === 'object') {
       serviceNetworks = Object.keys(def.networks);
     }
+
+    // Default network if none specified
+    if (serviceNetworks.length === 0) {
+      serviceNetworks = ['default'];
+    }
+
+    serviceNetworks.forEach(n => allNetworks.add(n));
 
     // Normalize ports (string vs number)
     const normalizedPorts = def.ports?.map(p => p.toString());
@@ -64,9 +72,7 @@ export function normalizeToGraph(compose: ComposeFile): ComposeGraph {
         }
       });
     }
-
-    // TODO: Create Edges (shared networks) - Day 4 task
   });
 
-  return { services, edges };
+  return { services, edges, networks: Array.from(allNetworks) };
 }

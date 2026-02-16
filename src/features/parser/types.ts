@@ -1,6 +1,7 @@
 // The normalized graph structure (Output of the parser)
 export interface ComposeGraph {
   services: Record<string, ServiceNode>;
+  networks: string[];
   edges: ServiceEdge[];
 }
 
