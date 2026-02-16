@@ -24,34 +24,53 @@ export const Header = () => {
         <img src="/logo.svg" alt="YAMLens Logo" className="w-8 h-8" />
         <h1 className="text-xl font-bold tracking-tight font-['Virgil']">YAMLens</h1>
       </a>
-      <div className="flex items-center gap-2">
-        <Button
-          variant={isDark ? "ghost" : "secondary"}
-          size="icon"
-          onClick={undo}
-          title="Undo"
-        >
-          <Undo2 className="w-5 h-5" />
-          <span className="sr-only">Undo</span>
-        </Button>
-        <Button
-          variant={isDark ? "ghost" : "secondary"}
-          size="icon"
-          onClick={redo}
-          title="Redo"
-        >
-          <Redo2 className="w-5 h-5" />
-          <span className="sr-only">Redo</span>
-        </Button>
-        <Button variant={isDark ? "ghost" : "secondary"} size="icon" asChild>
-          <a href="https://github.com/akbrdhia/YAMLens" target="_blank" rel="noreferrer">
-            <SiGithub className="w-5 h-5" />
-            <span className="sr-only">GitHub</span>
-          </a>
-        </Button>
-        <ModeToggle />
-        <ShareButton />
-        <ExportDropdown />
+      <div className="flex items-center gap-3">
+        {/* Editor Actions Group */}
+        <div className="flex items-center bg-muted/30 p-0.5 rounded-lg border border-border/40">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 rounded-md hover:bg-background hover:text-foreground hover:shadow-sm transition-all"
+            onClick={undo}
+            title="Undo (Ctrl+Z)"
+          >
+            <Undo2 className="w-4 h-4 text-muted-foreground" />
+            <span className="sr-only">Undo</span>
+          </Button>
+          <div className="w-[1px] h-4 bg-border/40 mx-0.5" />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 rounded-md hover:bg-background hover:text-foreground hover:shadow-sm transition-all"
+            onClick={redo}
+            title="Redo (Ctrl+Y)"
+          >
+            <Redo2 className="w-4 h-4 text-muted-foreground" />
+            <span className="sr-only">Redo</span>
+          </Button>
+        </div>
+
+        <div className="w-[1px] h-6 bg-border mx-1 hidden sm:block" />
+
+        <div className="flex items-center gap-2">
+          <ModeToggle />
+
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-9 w-9 border-border/60 hover:bg-muted/50"
+            asChild
+            title="View on GitHub"
+          >
+            <a href="https://github.com/akbrdhia/YAMLens" target="_blank" rel="noreferrer">
+              <SiGithub className="w-4 h-4 opacity-80" />
+              <span className="sr-only">GitHub</span>
+            </a>
+          </Button>
+
+          <ExportDropdown />
+          <ShareButton />
+        </div>
       </div>
     </header>
   )
