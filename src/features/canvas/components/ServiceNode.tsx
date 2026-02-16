@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 type ServiceNodeProps = NodeProps<Node<ServiceNodeType, "serviceNode">>;
 
 export const ServiceNode = memo(({ data }: ServiceNodeProps) => {
-  const Icon = getServiceIcon(data.image);
+  const Icon = useMemo(() => getServiceIcon(data.image), [data.image]);
 
   // Use granular selectors to prevent re-renders when 'nodes' change (dragging)
   const hoveredNode = useCanvasStore((s) => s.hoveredNode);
