@@ -15,7 +15,7 @@ const edgeTypes = {
 };
 
 export function Canvas() {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useCanvasStore();
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, setHoveredNode } = useCanvasStore();
   const { resolvedTheme } = useTheme();
 
   return (
@@ -26,6 +26,7 @@ export function Canvas() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onPaneClick={() => setHoveredNode(null)}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         fitView

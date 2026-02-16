@@ -33,4 +33,6 @@ export const useCanvasStore = create<CanvasState>((set, get) => ({
     const { nodes, edges } = layoutGraph(graph);
     set({ nodes, edges });
   },
+  hoveredNode: null,
+  setHoveredNode: (nodeId) => set({ hoveredNode: nodeId }),
 }));

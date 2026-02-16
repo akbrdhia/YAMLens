@@ -1,26 +1,66 @@
-import { memo } from 'react';
-import { Handle, Position, type Node, type NodeProps } from '@xyflow/react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import type { ServiceNode as ServiceNodeType } from '@/features/parser/types';
-import { getServiceIcon } from '@/features/parser'; // Import new matcher
-import { HardDrive, Settings, Box } from 'lucide-react'; // Icons for details
+import { memo, useMemo } from "react";
+import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/shared/components/ui/card";
+import type { ServiceNode as ServiceNodeType } from "@/features/parser/types";
+import { getServiceIcon } from "@/features/parser"; // Import new matcher
+import { HardDrive, Settings, Box } from "lucide-react"; // Icons for details
+import { useCanvasStore } from "@/features/canvas";
+import { cn } from "@/lib/utils";
 
-type ServiceNodeProps = NodeProps<Node<ServiceNodeType, 'serviceNode'>>;
+type ServiceNodeProps = NodeProps<Node<ServiceNodeType, "serviceNode">>;
 
 export const ServiceNode = memo(({ data }: ServiceNodeProps) => {
   const Icon = getServiceIcon(data.image);
+  const { hoveredNode, setHoveredNode, edges } = useCanvasStore();
+
+  const isDimmed = useMemo(() => {
+    if (!hoveredNode || hoveredNode === data.id) return false;
+    const isConnected = edges.some(
+      (e) =>
+        (e.source === hoveredNode && e.target === data.id) ||
+        (e.target === hoveredNode && e.source === data.id),
+    );
+    return !isConnected;
+  }, [hoveredNode, data.id, edges]);
 
   return (
-    <div className="relative group">
-      <Handle type="target" position={Position.Top} className="!bg-muted-foreground w-3 h-3" />
+    <div
+      className={cn(
+        "relative group transition-all duration-300",
+        isDimmed && "opacity-50 grayscale scale-95", // Lebih ekstrim: pudar, hitam putih, mengecil
+      )}
+      onClick={(e) => {
+        e.stopPropagation();
+        setHoveredNode(data.id);
+      }}
+    >
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!bg-muted-foreground w-3 h-3"
+      />
 
-      <Card className="w-[240px] shadow-sm hover:shadow-md transition-shadow border-border/50 bg-card/95 backdrop-blur-sm">
+      <Card
+        className={cn(
+          "w-[240px] shadow-sm hover:shadow-md transition-all border-border/50 bg-card/95 backdrop-blur-sm",
+          hoveredNode === data.id &&
+            "ring-2 ring-primary shadow-2xl scale-110 z-50 bg-card", // Lebih ekstrim: ring tebal, besar
+        )}
+      >
         {/* Header */}
         <CardHeader className="p-3 pb-2 flex flex-row items-center gap-2 space-y-0 border-b border-border/50 bg-muted/20">
           <div className="p-1.5 bg-background border border-border rounded-md text-foreground">
             <Icon className="size-5" />
           </div>
-          <CardTitle className="text-sm font-semibold truncate flex-1" title={data.id}>
+          <CardTitle
+            className="text-sm font-semibold truncate flex-1"
+            title={data.id}
+          >
             {data.id}
           </CardTitle>
         </CardHeader>
@@ -31,11 +71,13 @@ export const ServiceNode = memo(({ data }: ServiceNodeProps) => {
           {data.image && (
             <div className="flex items-center gap-2" title={data.image}>
               <Box className="size-3 shrink-0" />
-              <span className="truncate font-mono opacity-80">{data.image.split(':')[0]}</span>
-              {data.image.includes(':') && (
-                 <span className="px-1 py-0.5 bg-muted rounded text-[10px] text-muted-foreground">
-                   {data.image.split(':')[1]}
-                 </span>
+              <span className="truncate font-mono opacity-80">
+                {data.image.split(":")[0]}
+              </span>
+              {data.image.includes(":") && (
+                <span className="px-1 py-0.5 bg-muted rounded text-[10px] text-muted-foreground">
+                  {data.image.split(":")[1]}
+                </span>
               )}
             </div>
           )}
@@ -44,18 +86,21 @@ export const ServiceNode = memo(({ data }: ServiceNodeProps) => {
           <div className="grid grid-cols-2 gap-2 mt-2">
             {/* Ports */}
             {data.ports && data.ports.length > 0 && (
-               <div className="col-span-2 flex flex-wrap gap-1">
-                 {data.ports.slice(0, 3).map((p) => (
-                   <span key={p} className="px-1.5 py-0.5 bg-primary/10 text-primary border border-primary/20 rounded text-[10px] font-mono">
-                     {p}
-                   </span>
-                 ))}
-                 {data.ports.length > 3 && (
-                   <span className="px-1.5 py-0.5 bg-muted rounded text-[10px] text-muted-foreground">
-                     +{data.ports.length - 3}
-                   </span>
-                 )}
-               </div>
+              <div className="col-span-2 flex flex-wrap gap-1">
+                {data.ports.slice(0, 3).map((p) => (
+                  <span
+                    key={p}
+                    className="px-1.5 py-0.5 bg-primary/10 text-primary border border-primary/20 rounded text-[10px] font-mono"
+                  >
+                    {p}
+                  </span>
+                ))}
+                {data.ports.length > 3 && (
+                  <span className="px-1.5 py-0.5 bg-muted rounded text-[10px] text-muted-foreground">
+                    +{data.ports.length - 3}
+                  </span>
+                )}
+              </div>
             )}
 
             {/* Volumes */}
@@ -79,9 +124,13 @@ export const ServiceNode = memo(({ data }: ServiceNodeProps) => {
         </CardContent>
       </Card>
 
-      <Handle type="source" position={Position.Bottom} className="!bg-muted-foreground w-3 h-3" />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        className="!bg-muted-foreground w-3 h-3"
+      />
     </div>
   );
 });
 
-ServiceNode.displayName = 'ServiceNode';
+ServiceNode.displayName = "ServiceNode";
