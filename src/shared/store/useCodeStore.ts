@@ -14,6 +14,7 @@ export interface FileItem {
 interface CodeState {
   files: FileItem[];
   activeFileId: string;
+  isMergedView: boolean;
   mergedCode: string;
   error: string | null;
 
@@ -24,6 +25,7 @@ interface CodeState {
   renameFile: (id: string, name: string) => void;
   setActiveFile: (id: string) => void;
   setFiles: (files: FileItem[]) => void;
+  setIsMergedView: (val: boolean) => void;
 
   // Legacy support & calculated state trigger
   setCode: (code: string) => void; // Now updates active file
@@ -109,7 +111,7 @@ export const useCodeStore = create<CodeState>((set, get) => {
     },
 
     setActiveFile: (id: string) => {
-      set({ activeFileId: id });
+      set({ activeFileId: id, isMergedView: false });
     },
 
     setFiles: (files: FileItem[]) => {
@@ -118,9 +120,14 @@ export const useCodeStore = create<CodeState>((set, get) => {
       set({
         files,
         activeFileId: files[0].id,
+        isMergedView: false,
         mergedCode,
         error,
       });
+    },
+
+    setIsMergedView: (isMergedView: boolean) => {
+      set({ isMergedView });
     },
 
     // Legacy support: updates the active file

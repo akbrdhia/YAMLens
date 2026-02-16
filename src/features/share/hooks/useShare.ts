@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { toast } from 'sonner';
 import { compressCode } from '../utils/compression';
-import { FileItem } from '@/shared/store/useCodeStore';
+import { type FileItem } from '@/shared/store/useCodeStore';
 
 export const useShare = () => {
   const shareCode = useCallback((files: FileItem[]) => {

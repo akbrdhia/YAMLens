@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useCodeStore, FileItem } from '@/shared/store/useCodeStore';
+import { useCodeStore, type FileItem } from '@/shared/store/useCodeStore';
 import { decompressCode } from '../utils/compression';
 import { toast } from 'sonner';
 

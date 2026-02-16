@@ -1,11 +1,20 @@
-import { Plus, X, FileText, Edit2, Check } from 'lucide-react';
+import { Plus, X, FileText, Edit2, Check, Layers } from 'lucide-react';
 import { useCodeStore } from '@/shared/store/useCodeStore';
 import { cn } from '@/lib/utils';
 import { Button } from '@/shared/components/ui/button';
 import { useState, useRef, useEffect } from 'react';
 
 export function FileTabs() {
-  const { files, activeFileId, setActiveFile, addFile, deleteFile, renameFile } = useCodeStore();
+  const {
+    files,
+    activeFileId,
+    setActiveFile,
+    addFile,
+    deleteFile,
+    renameFile,
+    isMergedView,
+    setIsMergedView
+  } = useCodeStore();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -24,6 +33,7 @@ export function FileTabs() {
 
   const startEditing = (id: string, name: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    setIsMergedView(false);
     setEditingId(id);
     setEditValue(name);
   };
@@ -44,9 +54,9 @@ export function FileTabs() {
   };
 
   return (
-    <div className="flex items-center gap-1 px-2 py-1 bg-muted/40 border-b border-border overflow-x-auto no-scrollbar">
+    <div className="flex items-center gap-1 px-2 py-1 bg-muted/40 overflow-x-auto no-scrollbar flex-1">
       {files.map((file) => {
-        const isActive = file.id === activeFileId;
+        const isActive = file.id === activeFileId && !isMergedView;
         const isEditing = editingId === file.id;
 
         return (
@@ -125,6 +135,22 @@ export function FileTabs() {
       >
         <Plus className="w-4 h-4" />
       </Button>
+
+      <div className="h-4 w-[1px] bg-border mx-2 shrink-0" />
+
+      <div
+        onClick={() => setIsMergedView(true)}
+        className={cn(
+          "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer whitespace-nowrap border border-transparent shrink-0",
+          isMergedView
+            ? "bg-background text-foreground border-border shadow-sm"
+            : "text-muted-foreground hover:bg-background/50 hover:text-foreground"
+        )}
+        title="View merged configuration"
+      >
+        <Layers className={cn("w-3.5 h-3.5", isMergedView ? "text-primary" : "text-muted-foreground")} />
+        <span>Merged View</span>
+      </div>
     </div>
   );
 }

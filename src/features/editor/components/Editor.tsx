@@ -15,14 +15,15 @@ import { FileTabs } from './FileTabs';
 
 export function Editor() {
   const setSearchOpen = useUIStore((state) => state.setSearchOpen);
-  const { files, activeFileId, setCode, error } = useCodeStore();
+  const { files, activeFileId, setCode, error, isMergedView, mergedCode } = useCodeStore();
   const { resolvedTheme } = useTheme();
   const { registerActions } = useEditor();
 
   const activeFile = files.find(f => f.id === activeFileId);
-  const code = activeFile?.content || '';
+  const code = isMergedView ? mergedCode : (activeFile?.content || '');
 
   const handleFormat = () => {
+    if (isMergedView) return;
     try {
       const obj = jsYaml.load(code);
       const formatted = jsYaml.dump(obj, { indent: 2, lineWidth: -1 });
@@ -69,6 +70,7 @@ export function Editor() {
           <CodeMirror
             value={code}
             height="100%"
+            editable={!isMergedView}
             extensions={[
               yaml(),
               keymap.of([
@@ -81,7 +83,7 @@ export function Editor() {
                 },
               ]),
             ]}
-            onChange={setCode}
+            onChange={(value) => !isMergedView && setCode(value)}
             theme={resolvedTheme === 'dark' ? vscodeDark : githubLight}
             className="h-full text-sm font-mono"
             basicSetup={{
