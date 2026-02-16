@@ -20,10 +20,10 @@ export const Header = () => {
         isDark ? "bg-background/80 backdrop-blur-md text-foreground" : "bg-primary/95 backdrop-blur-md text-primary-foreground border-transparent"
       )}
     >
-      <div className="flex items-center gap-3">
+      <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
         <img src="/logo.svg" alt="YAMLens Logo" className="w-8 h-8" />
         <h1 className="text-xl font-bold tracking-tight font-['Virgil']">YAMLens</h1>
-      </div>
+      </a>
       <div className="flex items-center gap-2">
         <Button
           variant={isDark ? "ghost" : "secondary"}
