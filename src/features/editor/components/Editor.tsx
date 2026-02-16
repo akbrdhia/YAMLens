@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { yaml } from '@codemirror/lang-yaml';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
@@ -9,6 +8,7 @@ import { undo, redo } from '@codemirror/commands';
 import { keymap } from '@codemirror/view';
 import { useUIStore } from '@/shared/store/useUIStore';
 import { useCodeStore } from '@/shared/store/useCodeStore';
+import { toast } from 'sonner';
 import { Search, Sparkles } from 'lucide-react';
 import jsYaml from 'js-yaml';
 
@@ -23,20 +23,15 @@ export function Editor() {
       const obj = jsYaml.load(code);
       const formatted = jsYaml.dump(obj, { indent: 2, lineWidth: -1 });
       setCode(formatted);
+      toast.success('Code formatted');
     } catch {
-      // Ignore format errors if code is invalid
+      toast.error('Cannot format: Invalid YAML');
     }
   };
 
   const handleSearch = () => {
     setSearchOpen(true);
   };
-
-  // Initial parse on mount
-  useEffect(() => {
-    setCode(code);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="h-full w-full flex flex-col bg-background">

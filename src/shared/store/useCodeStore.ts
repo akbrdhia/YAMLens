@@ -9,19 +9,27 @@ interface CodeState {
   setCode: (code: string) => void;
 }
 
-export const useCodeStore = create<CodeState>((set) => ({
-  code: DEFAULT_YAML,
-  error: null,
-  setCode: (code: string) => {
-    set({ code });
-    if (!code.trim()) return;
+export const useCodeStore = create<CodeState>((set) => {
+  // Initial parse
+  const initialResult = parseDockerCompose(DEFAULT_YAML);
+  if (initialResult.success && initialResult.data) {
+    useCanvasStore.getState().setGraph(initialResult.data);
+  }
 
-    const result = parseDockerCompose(code);
-    if (result.success && result.data) {
-      useCanvasStore.getState().setGraph(result.data);
-      set({ error: null });
-    } else {
-      set({ error: result.error || 'Unknown error' });
-    }
-  },
-}));
+  return {
+    code: DEFAULT_YAML,
+    error: null,
+    setCode: (code: string) => {
+      set({ code });
+      if (!code.trim()) return;
+
+      const result = parseDockerCompose(code);
+      if (result.success && result.data) {
+        useCanvasStore.getState().setGraph(result.data);
+        set({ error: null });
+      } else {
+        set({ error: result.error || 'Unknown error' });
+      }
+    },
+  };
+});

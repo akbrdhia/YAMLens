@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toPng, toSvg } from 'html-to-image';
 import download from 'downloadjs';
+import { toast } from 'sonner';
 
 export function useExport() {
   const [isExporting, setIsExporting] = useState(false);
@@ -35,17 +36,19 @@ export function useExport() {
         await navigator.clipboard.write([
           new ClipboardItem({ 'image/png': data })
         ]);
-        alert("Copied to clipboard!");
+        toast.success("Image copied to clipboard");
       } else if (format === 'svg') {
         const dataUrl = await toSvg(element, options);
         download(dataUrl, 'compose-viz.svg');
+        toast.success("SVG exported successfully");
       } else {
         const dataUrl = await toPng(element, options);
         download(dataUrl, 'compose-viz.png');
+        toast.success("PNG exported successfully");
       }
     } catch (error) {
       console.error('Export failed:', error);
-      alert(`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      toast.error(`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsExporting(false);
     }

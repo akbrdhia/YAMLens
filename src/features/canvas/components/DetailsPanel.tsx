@@ -19,6 +19,8 @@ import { useEditor } from "@/features/editor";
 import { HardDrive, Network, Globe, Code, Copy, Check } from "lucide-react";
 import type { ServiceNode as ServiceNodeType } from "@/features/parser/types";
 
+import { toast } from "sonner";
+
 export const DetailsPanel = () => {
   const { nodes, detailsNodeId, setDetailsNodeId } = useCanvasStore();
   const { scrollToService } = useEditor();
@@ -42,6 +44,7 @@ export const DetailsPanel = () => {
     navigator.clipboard.writeText(text);
     setCopiedEnv(index);
     setTimeout(() => setCopiedEnv(null), 2000);
+    toast.success("Copied to clipboard");
   };
 
   if (!data) return null;
