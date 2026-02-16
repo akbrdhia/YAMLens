@@ -36,24 +36,31 @@ export function Editor() {
     setSearchOpen(true);
   };
 
-  const handleCodeChange = (value: string) => {
-    setCode(value);
-    if (!value.trim()) return;
+  // Parse when code changes (either from user input or store update)
+  useEffect(() => {
+    // We only need to re-parse if the graph is out of sync or on initial load.
+    // However, handleCodeChange updates both code and graph.
+    // Since we are now using a global store, we should be careful about infinite loops.
+    // But handleCodeChange sets the store.
 
-    const result = parseDockerCompose(value);
+    // Actually, let's just parse the current code to ensure graph is in sync.
+    // We don't need to setCode here because it's already in the store.
+
+    if (!code.trim()) return;
+
+    const result = parseDockerCompose(code);
     if (result.success && result.data) {
       setGraph(result.data);
       setError(null);
     } else {
       setError(result.error || 'Unknown error');
     }
-  };
+  }, [code, setGraph]);
 
-  // Initial parse on mount
-  useEffect(() => {
-    handleCodeChange(code);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleCodeChange = (value: string) => {
+    setCode(value);
+    // The useEffect above will handle the parsing
+  };
 
   return (
     <div className="h-full w-full flex flex-col bg-background">
