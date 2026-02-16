@@ -1,13 +1,1 @@
-<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M100 30L160 65V135L100 170L40 135V65L100 30Z" fill="#2496ED"/>
-  <path d="M100 30L160 65L100 100L40 65L100 30Z" fill="#58B4FF"/>
-  <path d="M100 100L160 65V135L100 170V100Z" fill="#1D7ACC"/>
-
-  <g stroke="white" stroke-width="4" stroke-linecap="round">
-    <line x1="75" y1="105" x2="100" y2="135" /> <line x1="125" y1="105" x2="100" y2="135" /> <line x1="100" y1="135" x2="100" y2="170" /> </g>
-
-  <circle cx="75" cy="105" r="6" fill="white"/>
-  <circle cx="100" cy="135" r="6" fill="white"/>
-  <circle cx="125" cy="105" r="6" fill="white"/>
-  <circle cx="100" cy="170" r="6" fill="white"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="none" viewBox="0 0 200 200"><path fill="#2496ED" d="M100 30L160 65V135L100 170L40 135V65L100 30Z"/><path fill="#58B4FF" d="M100 30L160 65L100 100L40 65L100 30Z"/><path fill="#1D7ACC" d="M100 100L160 65V135L100 170V100Z"/><g stroke="#fff" stroke-linecap="round" stroke-width="4"><line x1="75" x2="100" y1="105" y2="135"/><line x1="125" x2="100" y1="105" y2="135"/><line x1="100" x2="100" y1="135" y2="170"/></g><circle cx="75" cy="105" r="6" fill="#fff"/><circle cx="100" cy="135" r="6" fill="#fff"/><circle cx="125" cy="105" r="6" fill="#fff"/><circle cx="100" cy="170" r="6" fill="#fff"/></svg>
