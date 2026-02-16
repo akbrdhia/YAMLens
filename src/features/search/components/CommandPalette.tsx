@@ -1,8 +1,5 @@
-import { useEffect } from "react";
-import { useCanvasStore } from "@/features/canvas";
-import { useEditor } from "@/features/editor";
-import { useReactFlow } from "@xyflow/react";
 import { useUIStore } from "@/shared/store/useUIStore";
+import { useCommandRegistry } from "@/shared/commands";
 import {
   CommandDialog,
   CommandInput,
@@ -10,46 +7,48 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandItem,
+  CommandShortcut,
 } from "@/shared/components/ui/command";
 
 export function CommandPalette() {
-  const { isSearchOpen, setSearchOpen, toggleSearch } = useUIStore();
-  const nodes = useCanvasStore((s) => s.nodes);
-  const { scrollToService } = useEditor();
-  const { fitView } = useReactFlow();
+  const { isSearchOpen, setSearchOpen } = useUIStore();
+  const commands = useCommandRegistry();
 
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if ((e.key === "k" || e.key === "f") && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        toggleSearch();
-      }
-    };
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, [toggleSearch]);
+  // Group commands by section
+  const groups = commands.reduce((acc, command) => {
+    if (!acc[command.section]) {
+      acc[command.section] = [];
+    }
+    acc[command.section].push(command);
+    return acc;
+  }, {} as Record<string, typeof commands>);
 
   return (
     <CommandDialog open={isSearchOpen} onOpenChange={setSearchOpen}>
-      <CommandInput placeholder="Search service..." />
+      <CommandInput placeholder="Type a command or search..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Services">
-          {nodes.map((node) => (
-            <CommandItem
-              key={node.id}
-              onSelect={() => {
-                // 1. Zoom to node
-                fitView({ nodes: [{ id: node.id }], duration: 1000, padding: 0.5 });
-                // 2. Scroll editor
-                scrollToService(node.id);
-                setSearchOpen(false);
-              }}
-            >
-              <span>{node.data.id as string}</span>
-            </CommandItem>
-          ))}
-        </CommandGroup>
+        {Object.entries(groups).map(([section, sectionCommands]) => (
+          <CommandGroup key={section} heading={section}>
+            {sectionCommands.map((command) => (
+              <CommandItem
+                key={command.id}
+                onSelect={() => {
+                  command.action();
+                  setSearchOpen(false);
+                }}
+              >
+                <command.icon className="mr-2 h-4 w-4" />
+                <span>{command.title}</span>
+                {command.shortcut && (
+                  <CommandShortcut>
+                    {command.shortcut.replace("mod", "⌘").replace("+", " ")}
+                  </CommandShortcut>
+                )}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        ))}
       </CommandList>
     </CommandDialog>
   );
