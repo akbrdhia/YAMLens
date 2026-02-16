@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
-import { parseDockerCompose } from '@/features/parser';
-import { useCanvasStore } from '@/features/canvas';
+import { useEffect } from 'react';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { yaml } from '@codemirror/lang-yaml';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
@@ -15,10 +13,8 @@ import { Search, Sparkles } from 'lucide-react';
 import jsYaml from 'js-yaml';
 
 export function Editor() {
-  const setGraph = useCanvasStore((state) => state.setGraph);
   const setSearchOpen = useUIStore((state) => state.setSearchOpen);
-  const { code, setCode } = useCodeStore();
-  const [error, setError] = useState<string | null>(null);
+  const { code, setCode, error } = useCodeStore();
   const { resolvedTheme } = useTheme();
   const { registerActions } = useEditor();
 
@@ -36,31 +32,11 @@ export function Editor() {
     setSearchOpen(true);
   };
 
-  // Parse when code changes (either from user input or store update)
+  // Initial parse on mount
   useEffect(() => {
-    // We only need to re-parse if the graph is out of sync or on initial load.
-    // However, handleCodeChange updates both code and graph.
-    // Since we are now using a global store, we should be careful about infinite loops.
-    // But handleCodeChange sets the store.
-
-    // Actually, let's just parse the current code to ensure graph is in sync.
-    // We don't need to setCode here because it's already in the store.
-
-    if (!code.trim()) return;
-
-    const result = parseDockerCompose(code);
-    if (result.success && result.data) {
-      setGraph(result.data);
-      setError(null);
-    } else {
-      setError(result.error || 'Unknown error');
-    }
-  }, [code, setGraph]);
-
-  const handleCodeChange = (value: string) => {
-    setCode(value);
-    // The useEffect above will handle the parsing
-  };
+    setCode(code);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="h-full w-full flex flex-col bg-background">
@@ -108,7 +84,7 @@ export function Editor() {
                 },
               ]),
             ]}
-            onChange={handleCodeChange}
+            onChange={setCode}
             theme={resolvedTheme === 'dark' ? vscodeDark : githubLight}
             className="h-full text-sm font-mono"
             basicSetup={{
