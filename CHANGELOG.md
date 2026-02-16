@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 New Features
 
+*   **Share Configuration:** Share your Docker Compose setup instantly via a unique URL (compressed with `lz-string`).
+    *   **Auto-Hydration:** Opening a shared link automatically loads the configuration into the editor and visualizer.
+    *   **Toast Notification:** Get instant feedback when a link is copied or loaded.
 *   **Pro Editor:** Replaced basic textarea with **CodeMirror 6**.
     *   Added syntax highlighting for YAML.
     *   Added line numbers and fold gutters.
@@ -43,6 +46,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 *   Fixed an issue where exporting to PNG would crash due to font embedding errors.
 *   Fixed layout overlap issues between services and volumes.
 *   Fixed canvas theme not updating immediately when switching modes.
+
+*   **SEO & Social:** Added comprehensive meta tags and Open Graph support for rich social sharing previews.
+    *   **PWA Support:** Added `site.webmanifest` and mobile-capable meta tags for "Add to Home Screen" functionality.
+*   **Performance:** Refactored state management to use a global `CodeStore` for optimized parsing and reduced re-renders.
+*   **Bug Fixes:** Resolved React Fast Refresh issues and `useEffect` dependency warnings for a cleaner development experience.
 
 ## [1.0.0] - 2026-02-15
 
