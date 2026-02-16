@@ -1,11 +1,13 @@
 import { useCallback } from 'react';
 import { toast } from 'sonner';
 import { compressCode } from '../utils/compression';
+import { FileItem } from '@/shared/store/useCodeStore';
 
 export const useShare = () => {
-  const shareCode = useCallback((code: string) => {
+  const shareCode = useCallback((files: FileItem[]) => {
     try {
-      const compressed = compressCode(code);
+      const dataString = JSON.stringify(files);
+      const compressed = compressCode(dataString);
       const url = new URL(window.location.href);
       url.searchParams.set('code', compressed);
 

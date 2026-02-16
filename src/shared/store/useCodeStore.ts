@@ -23,6 +23,7 @@ interface CodeState {
   updateFile: (id: string, content: string) => void;
   renameFile: (id: string, name: string) => void;
   setActiveFile: (id: string) => void;
+  setFiles: (files: FileItem[]) => void;
 
   // Legacy support & calculated state trigger
   setCode: (code: string) => void; // Now updates active file
@@ -109,6 +110,17 @@ export const useCodeStore = create<CodeState>((set, get) => {
 
     setActiveFile: (id: string) => {
       set({ activeFileId: id });
+    },
+
+    setFiles: (files: FileItem[]) => {
+      if (files.length === 0) return;
+      const { mergedCode, error } = updateGraphAndMerge(files);
+      set({
+        files,
+        activeFileId: files[0].id,
+        mergedCode,
+        error,
+      });
     },
 
     // Legacy support: updates the active file
