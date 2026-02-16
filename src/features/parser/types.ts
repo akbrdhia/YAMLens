@@ -7,6 +7,7 @@ export interface ComposeGraph {
 }
 
 export interface VolumeNode {
+  [key: string]: unknown;
   id: string;
   type: 'volume' | 'bind';
 }
